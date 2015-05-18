@@ -13,23 +13,17 @@ bp_dir=$(cd $(dirname $0); cd ..; pwd)
 # Load some convenience functions like status(), echo(), and indent()
 source $bp_dir/bin/utils.sh
 
-if [ -d "$env_dir" ]; then
-  status "Exporting config vars to env.json"
-  export_env_dir $env_dir
-fi
+# Load slugify function
+source $build_dir/Slugify
 
-# Tar slug directory and add env.json
-status "Creating slug"
-SLUG=slug.tar
-tar cf $SLUG --exclude .git -C $build_dir . | indent
-tar rf $SLUG env.json | indent
+# Slugify
+status "Slugifying..."
+slugify $build_dir | indent
 
-# Upload file to AWS_SLUG_BUCKET
-status "Uploading slug to ${AWS_SLUG_BUCKET}"
-FILE_TO_UPLOAD=$SLUG
-SLUG_DIR=slugs
-source $bp_dir/bin/aws.sh | indent
+# Upload
+status "Uploading..."
+upload $build_dir | indent
 
 # Clean up
-status "Cleaning up"
-rm -rf $SLUG env.json | indent
+status "Cleaning up..."
+cleanup $build_dir | indent
