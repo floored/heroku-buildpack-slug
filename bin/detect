@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# this buildpack can always be used
+exit 0
