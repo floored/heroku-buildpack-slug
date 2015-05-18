@@ -51,7 +51,7 @@ AWS4SECRET="AWS4"$AWS_SECRET_KEY
 ALGORITHM="AWS4-HMAC-SHA256"
 EXPIRE="2099-01-01T00:00:00.000Z"
 
-POST_POLICY='{"expiration":"'$EXPIRE'","conditions": [{"bucket":"'$$AWS_SLUG_BUCKET'" },["starts-with", "$key", "'$STARTS_WITH'"],["eq", "$Content-Type", "application/octet-stream"],{"x-amz-credential":"'$AWS_ACCESS_KEY'/'$REQUEST_DATE'/'$REQUEST_REGION'/'$REQUEST_SERVICE'/aws4_request"},{"x-amz-algorithm":"'$ALGORITHM'"},{"x-amz-date":"'$REQUEST_TIME'"}]}'
+POST_POLICY='{"expiration":"'$EXPIRE'","conditions": [{"bucket":"'$AWS_SLUG_BUCKET'" },["starts-with", "$key", "'$STARTS_WITH'"],["eq", "$Content-Type", "application/octet-stream"],{"x-amz-credential":"'$AWS_ACCESS_KEY'/'$REQUEST_DATE'/'$REQUEST_REGION'/'$REQUEST_SERVICE'/aws4_request"},{"x-amz-algorithm":"'$ALGORITHM'"},{"x-amz-date":"'$REQUEST_TIME'"}]}'
 
 UPLOAD_REQUEST=$(printf "$POST_POLICY" | openssl base64 )
 UPLOAD_REQUEST=$(echo -en $UPLOAD_REQUEST |  sed "s/ //g")
