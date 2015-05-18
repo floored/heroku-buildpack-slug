@@ -16,6 +16,12 @@ source $bp_dir/bin/utils.sh
 # Load Slugfile functions
 source $build_dir/Slugfile
 
+# Export environment variables
+if [ -d "$env_dir" ]; then
+  status "Exporting config vars to environment"
+  export_env_dir $env_dir
+fi
+
 # Slugify
 status "Slugifying..."
 slugify $build_dir | indent
